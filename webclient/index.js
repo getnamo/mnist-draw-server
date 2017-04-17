@@ -167,7 +167,7 @@ function tool_pencil () {
 			tool.touchmove(ev);
 			tool.started = false;
 
-			drawingTimeout = setTimeout(drawingComplete, 1000);
+			//drawingTimeout = setTimeout(drawingComplete, 1000);
 	  	}
 	};
 	this.mouseup = this.touchend;
