@@ -28,7 +28,7 @@ io.on('connection', function(socket){
 	//track connected clients via log
 	clients.push(socket.id);
 	var clientConnectedMsg = 'User connected ' + util.inspect(socket.id) + ', total: ' + clients.length;
-	var clientDisconnectedMsg = 'User disconnected ' + util.inspect(socket.id) + ', total: ' + clients.length;
+	
 
 	console.log(clientConnectedMsg);
 
@@ -43,6 +43,8 @@ io.on('connection', function(socket){
 		{
 			ue4client = undefined;
 		}
+		
+		var clientDisconnectedMsg = 'User disconnected ' + util.inspect(socket.id) + ', total: ' + clients.length;
 
 		console.log(clientDisconnectedMsg);
 	});
