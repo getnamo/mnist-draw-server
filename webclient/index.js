@@ -54,11 +54,12 @@ function drawingComplete()
 	}
 
 	//get the current range
-	var rangex = drawing.max.x - drawing.min.x;
-	var rangey = drawing.max.y - drawing.min.y;
+	var rawrangex = drawing.max.x - drawing.min.x;
+	var rawrangey = drawing.max.y - drawing.min.y;
 
-	var borderx = rangex*0.1;
-	var bordery = rangey*0.1;
+	var borderFactor = 0.2
+	var borderx = rawrangex * borderFactor;
+	var bordery = rawrangey * borderFactor;
 
 	min.x = min.x - borderx;
 	min.y = min.y - borderx;
@@ -70,8 +71,8 @@ function drawingComplete()
 	drawing.max = max;
 
 	//keep aspect ratio by finding which length is longer
-	rangex = drawing.max.x - drawing.min.x;
-	rangey = drawing.max.y - drawing.min.y;
+	var rangex = drawing.max.x - drawing.min.x;
+	var rangey = drawing.max.y - drawing.min.y;
 	var maxRange = 0;
 	var smallerRangeIsX = true;
 
@@ -84,8 +85,8 @@ function drawingComplete()
 	}
 
 	//Center of pt
-	var centerx = drawing.min.x + (rangex/2);
-	var centery = drawing.min.y + (rangey/2);
+	var halfx = (rawrangex/2);
+	var halfy = (rawrangey/2);
 
 	result = {};
 	result.strokes = [];
@@ -103,18 +104,18 @@ function drawingComplete()
 			var point = drawing.strokes[i][j];
 			var normpt = {};
 
-			/*if(smallerRangeIsX)
+			if(smallerRangeIsX)
 			{
-				normpt.x = (point.x + (rangex/2)- drawing.min.x) / maxRange * 28.0;
+				normpt.x = (point.x + halfx - drawing.min.x) / maxRange * 28.0;
 				normpt.y = (point.y - drawing.min.y) / maxRange * 28.0;
 			}
 			else
 			{
 				normpt.x = (point.x - drawing.min.x) / maxRange * 28.0;
-				normpt.y = (point.y + (rangey/2) - drawing.min.y) / maxRange * 28.0;
-			}*/
-			normpt.x = (point.x - drawing.min.x) / maxRange * 28.0;
-			normpt.y = (point.y - drawing.min.y) / maxRange * 28.0;
+				normpt.y = (point.y + halfy - drawing.min.y) / maxRange * 28.0;
+			}
+			//normpt.x = (point.x - drawing.min.x) / maxRange * 28.0;
+			//normpt.y = (point.y - drawing.min.y) / maxRange * 28.0;
 
 			result.strokes[i].stroke.push(normpt);
 		}
