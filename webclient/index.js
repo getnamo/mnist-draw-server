@@ -57,7 +57,7 @@ function drawingComplete()
 	var rawrangex = drawing.max.x - drawing.min.x;
 	var rawrangey = drawing.max.y - drawing.min.y;
 
-	var borderFactor = 0.2;
+	var borderFactor = 0.1;
 	var borderx = rawrangex * borderFactor;
 	var bordery = rawrangey * borderFactor;
 
@@ -93,6 +93,7 @@ function drawingComplete()
 	
 
 	//normalize the drawing to 28/28 centered around figure
+	var outputSizeX, outputSizeY = 28;
 
 	//for each stroke
 	for(var i=0; i<drawing.strokes.length; i++){
@@ -107,18 +108,18 @@ function drawingComplete()
 			var point = drawing.strokes[i][j];
 			var normpt = {};
 
-			/*if(smallerRangeIsX)
+			if(smallerRangeIsX)
 			{
-				normpt.x = (point.x + borderx + halfx - drawing.min.x) / maxRange * 28.0;
-				normpt.y = (point.y + bordery - drawing.min.y) / maxRange * 28.0;
+				normpt.x = ( (point.x - drawing.min.x  + borderx - halfx) / maxRange * outputSizeX ) + (outputSizeX/2);
+				normpt.y = (point.y - drawing.min.y  + bordery) / maxRange * outputSizeY;
 			}
 			else
 			{
-				normpt.x = (point.x - drawing.min.x) / maxRange * 28.0;
-				normpt.y = (point.y + halfy - drawing.min.y) / maxRange * 28.0;
-			}*/
-			normpt.x = (point.x + borderx - drawing.min.x) / maxRange * 28.0;
-			normpt.y = (point.y + bordery - drawing.min.y) / maxRange * 28.0;
+				normpt.x = (point.x - drawing.min.x  + borderx) / maxRange * outputSizeX;
+				normpt.y = ( (point.y - drawing.min.y  + bordery + halfy) / maxRange * outputSizeY ) + (outputSizeY/2);
+			}
+			//normpt.x = (point.x + borderx - drawing.min.x) / maxRange * 28.0;
+			//normpt.y = (point.y + bordery - drawing.min.y) / maxRange * 28.0;
 
 			result.strokes[i].stroke.push(normpt);
 		}
