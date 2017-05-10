@@ -103,7 +103,7 @@ function drawingComplete()
 			var point = drawing.strokes[i][j];
 			var normpt = {};
 
-			if(smallerRangeIsX)
+			/*if(smallerRangeIsX)
 			{
 				normpt.x = (point.x + (rangex/2)- drawing.min.x) / maxRange * 28.0;
 				normpt.y = (point.y - drawing.min.y) / maxRange * 28.0;
@@ -112,9 +112,9 @@ function drawingComplete()
 			{
 				normpt.x = (point.x - drawing.min.x) / maxRange * 28.0;
 				normpt.y = (point.y + (rangey/2) - drawing.min.y) / maxRange * 28.0;
-			}
-			//normpt.x = (point.x - drawing.min.x) / maxRange * 28.0;
-			//normpt.y = (point.y - drawing.min.y) / maxRange * 28.0;
+			}*/
+			normpt.x = (point.x - drawing.min.x) / maxRange * 28.0;
+			normpt.y = (point.y - drawing.min.y) / maxRange * 28.0;
 
 			result.strokes[i].stroke.push(normpt);
 		}
