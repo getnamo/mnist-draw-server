@@ -53,19 +53,25 @@ function drawingComplete()
 		}
 	}
 
-	var border = 40;
-	min.x = min.x - border;
-	min.y = min.y - border - 10;
+	//get the current range
+	var rangex = drawing.max.x - drawing.min.x;
+	var rangey = drawing.max.y - drawing.min.y;
 
-	max.x = max.x + border;
-	max.y = max.y + border + 10;
+	var borderx = rangex*0.1;
+	var bordery = rangey*0.1;
+
+	min.x = min.x - borderx;
+	min.y = min.y - borderx;
+
+	max.x = max.x + bordery;
+	max.y = max.y + bordery;
 
 	drawing.min = min;
 	drawing.max = max;
 
 	//keep aspect ratio by finding which length is longer
-	var rangex = drawing.max.x - drawing.min.x;
-	var rangey = drawing.max.y - drawing.min.y;
+	rangex = drawing.max.x - drawing.min.x;
+	rangey = drawing.max.y - drawing.min.y;
 	var maxRange = 0;
 
 	if(rangex >= rangey){
@@ -74,6 +80,10 @@ function drawingComplete()
 	else{
 		maxRange = rangey;
 	}
+
+	//Center of pt
+	var centerx = drawing.min.x + (rangex/2);
+	var centery = drawing.min.y + (rangey/2);
 
 	result = {};
 	result.strokes = [];
