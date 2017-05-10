@@ -87,7 +87,6 @@ function drawingComplete()
 	//Center of pt
 	var halfx = (rawrangex/2);
 	var halfy = (rawrangey/2);
-	var centerx = 
 
 	result = {};
 	result.strokes = [];
