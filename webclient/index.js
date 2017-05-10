@@ -63,8 +63,21 @@ function drawingComplete()
 	drawing.min = min;
 	drawing.max = max;
 
+	//keep aspect ratio by finding which length is longer
+	var rangex = drawing.max.x - drawing.min.x;
+	var rangey = drawing.max.y - drawing.min.y;
+	var maxRange = 0;
+
+	if(rangex >= rangey){
+		maxRange = rangex;
+	}
+	else{
+		maxRange = rangey;
+	}
+
 	result = {};
 	result.strokes = [];
+	
 
 	//normalize the drawing to 28/28
 	for(var i=0; i<drawing.strokes.length; i++){
@@ -77,10 +90,9 @@ function drawingComplete()
 		{
 			var point = drawing.strokes[i][j];
 			var normpt = {};
-			var rangex = drawing.max.x - drawing.min.x;
-			var rangey = drawing.max.y - drawing.min.y;
-			normpt.x = (point.x - drawing.min.x) / rangex * 28.0;
-			normpt.y = (point.y - drawing.min.y) / rangey * 28.0;
+
+			normpt.x = (point.x - drawing.min.x) / maxRange * 28.0;
+			normpt.y = (point.y - drawing.min.y) / maxRange * 28.0;
 
 			result.strokes[i].stroke.push(normpt);
 		}
