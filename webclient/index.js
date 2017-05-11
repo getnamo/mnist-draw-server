@@ -14,13 +14,6 @@ function clearCanvas(){
 	context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-//returns a scaled point from input point and description (range,min,max)
-/*function scalePoint(point, desc, outputSize)
-{
-	desc.range.x
-	inPoint.x
-}*/
-
 function drawingComplete()
 {
 	drawingTimeout = undefined;
@@ -107,9 +100,6 @@ function drawingComplete()
 
 			normpt.x = ( (point.x - drawing.min.x - halfx) / scaledRange * outputSizeX ) + halfOutX;
 			normpt.y = ( (point.y - drawing.min.y - halfy) / scaledRange * outputSizeY ) + halfOutY;
-
-			//normpt.x = (point.x + borderx - drawing.min.x) / maxRange * 28.0;
-			//normpt.y = (point.y + bordery - drawing.min.y) / maxRange * 28.0;
 
 			result.strokes[i].stroke.push(normpt);
 		}
