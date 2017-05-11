@@ -53,43 +53,57 @@ function drawingComplete()
 		}
 	}
 
-	var border = 40;
-	min.x = min.x - border;
-	min.y = min.y - border - 10;
-
-	max.x = max.x + border;
-	max.y = max.y + border + 10;
-
+	//get the current range
 	drawing.min = min;
 	drawing.max = max;
 
+	//keep aspect ratio by finding which length is longer
+	var rangex = drawing.max.x - drawing.min.x;
+	var rangey = drawing.max.y - drawing.min.y;
+	var maxRange = 0;
+
+	if(rangex >= rangey){
+		maxRange = rangex;
+	}
+	else{
+		maxRange = rangey;
+	}
+
+	var borderFactor = 0.3;
+	var scaledRange = maxRange * (1 + borderFactor);
+
+	//Center of pt
+	var halfx = (rangex/2);
+	var halfy = (rangey/2);
+
 	result = {};
 	result.strokes = [];
+	
+	//normalize the drawing to 28/28 centered around figure
+	var outputSizeX = 28;
+	var outputSizeY = 28;
+	var halfOutX = outputSizeX / 2;
+	var halfOutY = outputSizeY / 2;
 
-	//normalize the drawing to 28/28
+	//for each stroke
 	for(var i=0; i<drawing.strokes.length; i++){
 		
 		var stroke = {}
 		stroke.stroke = [];
 		result.strokes.push(stroke);
 
+		//for each point
 		for(var j=0; j<drawing.strokes[i].length;j++)
 		{
 			var point = drawing.strokes[i][j];
 			var normpt = {};
-			var rangex = drawing.max.x - drawing.min.x;
-			var rangey = drawing.max.y - drawing.min.y;
-			normpt.x = (point.x - drawing.min.x) / rangex * 28.0;
-			normpt.y = (point.y - drawing.min.y) / rangey * 28.0;
+
+			normpt.x = ( (point.x - drawing.min.x - halfx) / scaledRange * outputSizeX ) + halfOutX;
+			normpt.y = ( (point.y - drawing.min.y - halfy) / scaledRange * outputSizeY ) + halfOutY;
 
 			result.strokes[i].stroke.push(normpt);
 		}
 	}
-
-	//var tempresult = {};
-	//tempresult.strokes = drawing.strokes;
-	//tempresult.min = drawing.min;
-	//tempresult.max = drawing.max;
 
 	//console.log(tempresult);
 	console.log(result);
