@@ -14,6 +14,13 @@ function clearCanvas(){
 	context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+//returns a scaled point from input point and description (range,min,max)
+/*function scalePoint(point, desc, outputSize)
+{
+	desc.range.x
+	inPoint.x
+}*/
+
 function drawingComplete()
 {
 	drawingTimeout = undefined;
@@ -54,19 +61,6 @@ function drawingComplete()
 	}
 
 	//get the current range
-	var rawrangex = drawing.max.x - drawing.min.x;
-	var rawrangey = drawing.max.y - drawing.min.y;
-
-	var borderFactor = 0.1;
-	var borderx = rawrangex * borderFactor;
-	var bordery = rawrangey * borderFactor;
-
-	min.x = min.x - borderx;
-	min.y = min.y - borderx;
-
-	max.x = max.x + bordery;
-	max.y = max.y + bordery;
-
 	drawing.min = min;
 	drawing.max = max;
 
@@ -74,26 +68,29 @@ function drawingComplete()
 	var rangex = drawing.max.x - drawing.min.x;
 	var rangey = drawing.max.y - drawing.min.y;
 	var maxRange = 0;
-	var smallerRangeIsX = true;
 
 	if(rangex >= rangey){
 		maxRange = rangex;
-		smallerRangeIsX = false;
 	}
 	else{
 		maxRange = rangey;
 	}
 
+	var borderFactor = 0.3;
+	var scaledRange = maxRange * (1 + borderFactor);
+
 	//Center of pt
-	var halfx = (rawrangex/2);
-	var halfy = (rawrangey/2);
+	var halfx = (rangex/2);
+	var halfy = (rangey/2);
 
 	result = {};
 	result.strokes = [];
 	
-
 	//normalize the drawing to 28/28 centered around figure
-	var outputSizeX, outputSizeY = 28;
+	var outputSizeX = 28;
+	var outputSizeY = 28;
+	var halfOutX = outputSizeX / 2;
+	var halfOutY = outputSizeY / 2;
 
 	//for each stroke
 	for(var i=0; i<drawing.strokes.length; i++){
@@ -108,27 +105,15 @@ function drawingComplete()
 			var point = drawing.strokes[i][j];
 			var normpt = {};
 
-			if(smallerRangeIsX)
-			{
-				normpt.x = ( (point.x - drawing.min.x  + borderx - halfx) / maxRange * outputSizeX ) + (outputSizeX/2);
-				normpt.y = (point.y - drawing.min.y  + bordery) / maxRange * outputSizeY;
-			}
-			else
-			{
-				normpt.x = (point.x - drawing.min.x  + borderx) / maxRange * outputSizeX;
-				normpt.y = ( (point.y - drawing.min.y  + bordery + halfy) / maxRange * outputSizeY ) + (outputSizeY/2);
-			}
+			normpt.x = ( (point.x - drawing.min.x - halfx) / scaledRange * outputSizeX ) + halfOutX;
+			normpt.y = ( (point.y - drawing.min.y - halfy) / scaledRange * outputSizeY ) + halfOutY;
+
 			//normpt.x = (point.x + borderx - drawing.min.x) / maxRange * 28.0;
 			//normpt.y = (point.y + bordery - drawing.min.y) / maxRange * 28.0;
 
 			result.strokes[i].stroke.push(normpt);
 		}
 	}
-
-	//var tempresult = {};
-	//tempresult.strokes = drawing.strokes;
-	//tempresult.min = drawing.min;
-	//tempresult.max = drawing.max;
 
 	//console.log(tempresult);
 	console.log(result);
