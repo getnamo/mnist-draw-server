@@ -7,6 +7,7 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const util = require('util');
+const port = 80;
 var clients = [];
 
 
@@ -67,7 +68,7 @@ io.on('connection', function(socket){
 
 });
 
-//make the server listen on port 3000
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+//make the server listen on specified port
+http.listen(port, function(){
+  console.log('listening on *:'+ port);
 });
