@@ -8,7 +8,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const util = require('util');
 const port = 80;
-var clients = [];
+let clients = [];
 
 
 //Send all the webclient resources
@@ -28,7 +28,7 @@ let ue4client = undefined;
 io.on('connection', function(socket){
 	//track connected clients via log
 	clients.push(socket.id);
-	var clientConnectedMsg = 'User connected ' + util.inspect(socket.id) + ', total: ' + clients.length;
+	let clientConnectedMsg = 'User connected ' + util.inspect(socket.id) + ', total: ' + clients.length;
 	
 
 	console.log(clientConnectedMsg);
@@ -45,7 +45,7 @@ io.on('connection', function(socket){
 			ue4client = undefined;
 		}
 		
-		var clientDisconnectedMsg = 'User disconnected ' + util.inspect(socket.id) + ', total: ' + clients.length;
+		let clientDisconnectedMsg = 'User disconnected ' + util.inspect(socket.id) + ', total: ' + clients.length;
 
 		console.log(clientDisconnectedMsg);
 	});
