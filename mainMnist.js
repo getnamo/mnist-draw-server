@@ -7,7 +7,7 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const util = require('util');
-const port = 80;
+const port = 3000;
 let clients = [];
 
 
