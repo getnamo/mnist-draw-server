@@ -29,6 +29,7 @@ function drawingComplete()
 	max.y = 0;
 	drawing.min = min;
 	drawing.max = max;
+	var borderFactor = 0.4;
 
 	for(var i=0; i<drawing.strokes.length; i++){
 		for(var j=0; j<drawing.strokes[i].length;j++)
@@ -69,7 +70,6 @@ function drawingComplete()
 		maxRange = rangey;
 	}
 
-	var borderFactor = 0.3;
 	var scaledRange = maxRange * (1 + borderFactor);
 
 	//Center of pt
